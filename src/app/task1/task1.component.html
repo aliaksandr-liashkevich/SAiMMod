@@ -1,0 +1,55 @@
+<div class="Task1">
+  <h1 class="text-center">
+    Лабораторная работа 1. САиММоД
+  </h1>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="n">Количство точек (n)</label>
+
+      <input id="n" type="number" class="form-control" formControlName="n" required />
+
+      <div *ngIf="formErrors.n" class="alert alert-danger">
+        {{ formErrors.n }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="m">Максимальное значение (m)</label>
+
+      <input id="m" type="number" class="form-control" formControlName="m" required />
+
+      <div *ngIf="formErrors.m" class="alert alert-danger">
+        {{ formErrors.m }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="x0">Начальное значение (x0)</label>
+
+      <input id="x0" type="number" class="form-control" formControlName="x0" required />
+
+      <div *ngIf="formErrors.x0" class="alert alert-danger">
+        {{ formErrors.x0 }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="a">Константа (a)</label>
+
+      <input id="a" type="number" class="form-control" formControlName="a" required />
+
+      <div *ngIf="formErrors.a" class="alert alert-danger">
+        {{ formErrors.a }}
+      </div>
+    </div>
+
+    <div class="row justify-content-center ">
+      <div class="btn-group" role="group">
+          <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+            Сгенерировать
+          </button>
+      </div>
+    </div>
+  </form>
+</div>
