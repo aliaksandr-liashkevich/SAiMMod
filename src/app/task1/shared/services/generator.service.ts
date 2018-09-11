@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Lemer, LemerResult } from '../models';
+import { Constants } from './constants';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,14 @@ export class GeneratorService {
   private dispersion: number;
   private sqrDivergence: number;
   private period: number;
+  private delta: number;
+  private xMax: number;
+  private xMin: number;
+  private variation: number;
+  private mNumbers: number[]; 
+  private cNumbers: number[];
+  private yScaleMin: number;
+  private yScaleMax: number;
 
   constructor() { }
 
@@ -22,6 +31,14 @@ export class GeneratorService {
     this.calculateDispersion();
     this.calculateSqrDivergence();
     this.calculatePeriod();
+    this.calculateXMax();
+    this.calculateXMin();
+    this.calculateVariation();
+    this.calculateDelta();
+    this.calculateMNumbers();
+    this.calculateCNumners(values.n);
+    this.calculateYScaleMax();
+    this.calculateYScaleMin();
   }
 
   public getResult(): LemerResult {
@@ -30,7 +47,10 @@ export class GeneratorService {
       this.expectancy,
       this.dispersion,
       this.sqrDivergence,
-      this.period
+      this.period,
+      this.cNumbers,
+      this.yScaleMin,
+      this.yScaleMax
     );
   }
 
@@ -86,6 +106,83 @@ export class GeneratorService {
       }
     });
     this.period = count;
+  }
+
+  private calculateXMax(){
+    const max = this.normalizedRandomNumbers.reduce(function(a, b) {
+      return Math.max(a, b);
+    });
+
+    this.xMax = max;
+  }
+
+  private calculateXMin(){
+    const min = this.normalizedRandomNumbers.reduce(function(a, b) {
+      return Math.min(a, b);
+    });
+
+    this.xMin = min;
+  }
+
+  private calculateVariation() {
+    this.variation = this.xMax - this.xMin;
+  }
+
+  private calculateDelta() {
+    this.delta = this.variation / Constants.K;
+  }
+
+  private calculateMNumbers() {
+    const sortNormalizedRandomNumbers = this.normalizedRandomNumbers.sort(function(a, b) {
+      return a - b;
+    });
+
+    this.mNumbers = new Array<number>(Constants.K);
+
+    let j = 0;
+    let count = 1;
+    let xMaxDelta = sortNormalizedRandomNumbers[0] + this.delta;
+    const length = sortNormalizedRandomNumbers.length;
+
+    for(let i = 1; i < length; i++) {
+      if(sortNormalizedRandomNumbers[i] > xMaxDelta) {
+        this.mNumbers[j] = count;
+        j++;
+        count = 0;
+        xMaxDelta += this.delta;
+      }
+
+      count++;
+    }
+
+    if(count > 0) {
+      if(!this.mNumbers[Constants.K - 1]){
+        this.mNumbers[Constants.K - 1] = 0; 
+      }      
+
+      this.mNumbers[Constants.K - 1] += count; 
+    }
+  }
+
+  private calculateCNumners(n: number) {
+    this.cNumbers = this.mNumbers
+      .map(x => x / n);
+  }
+
+  private calculateYScaleMax(){
+    const max = this.cNumbers.reduce(function(a, b) {
+      return Math.max(a, b);
+    });
+
+    this.yScaleMax = max;
+  }
+
+  private calculateYScaleMin(){
+    const min = this.cNumbers.reduce(function(a, b) {
+      return Math.min(a, b);
+    });
+
+    this.yScaleMin = min;
   }
 
 }

@@ -6,12 +6,16 @@ import { Task1RoutingModule } from './task1-routing.module';
 import { Task1Component } from './task1.component';
 import { GeneratorService } from './shared/services/generator.service';
 import { ResultComponent } from './result/result.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
     CommonModule,
     Task1RoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxChartsModule,
+    BrowserAnimationsModule
   ],
   providers: [
     GeneratorService
