@@ -1,6 +1,14 @@
-<div class="container">
-    <br />
-    <br />
+<div class="container p-3">
+  <div class="card">
+    <div class="card-header">Результаты</div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">Математическое ожидание: {{result.expectancy}}</li>
+        <li class="list-group-item">Среднеквадратическое отклонение: {{result.sqrDivergence}}</li>
+        <li class="list-group-item">Дисперсия: {{result.dispersion}}</li>
+        <li class="list-group-item">Период: {{result.period}}</li>
+      </ul>
+  </div>
+  <div class="pt-3">
     <ngx-charts-bar-vertical
     [view]="view"
     [scheme]="colorScheme"
@@ -17,4 +25,5 @@
     [yScaleMax]="yScaleMax"
     (select)="onSelect($event)">
   </ngx-charts-bar-vertical>
+  </div>
 </div>
