@@ -6,6 +6,7 @@ import { Constants } from './constants';
   providedIn: 'root'
 })
 export class GeneratorService {
+  private values: Lemer;
   private randomNumbers: number[];
   private normalizedRandomNumbers: number[];
 
@@ -21,12 +22,14 @@ export class GeneratorService {
   private cNumbers: number[];
   private yScaleMin: number;
   private yScaleMax: number;
+  private indirectTest: number;
 
   constructor() { }
 
   public init(values: Lemer) {
-    this.generateRandomNumbers(values);
-    this.generateNormalizedRandomNumbers(values.m);
+    this.values = values;
+    this.generateRandomNumbers();
+    this.generateNormalizedRandomNumbers();
     this.calculateExpectancy();
     this.calculateDispersion();
     this.calculateSqrDivergence();
@@ -36,9 +39,10 @@ export class GeneratorService {
     this.calculateVariation();
     this.calculateDelta();
     this.calculateMNumbers();
-    this.calculateCNumners(values.n);
+    this.calculateCNumners();
     this.calculateYScaleMax();
     this.calculateYScaleMin();
+    this.calculateIndirectTest();
   }
 
   public getResult(): LemerResult {
@@ -50,23 +54,24 @@ export class GeneratorService {
       this.period,
       this.cNumbers,
       this.yScaleMin,
-      this.yScaleMax
+      this.yScaleMax,
+      this.indirectTest
     );
   }
 
-  private generateRandomNumbers(values: Lemer) {
-    this.randomNumbers = new Array<number>(values.n);
+  private generateRandomNumbers() {
+    this.randomNumbers = new Array<number>(this.values.n);
 
-    this.randomNumbers[0] = values.x0;
+    this.randomNumbers[0] = this.values.x0;
     const length = this.randomNumbers.length;
     for (let i = 1; i < length; i++) {
-      this.randomNumbers[i] = ((values.a * this.randomNumbers[i - 1]) % values.m);
+      this.randomNumbers[i] = ((this.values.a * this.randomNumbers[i - 1]) % this.values.m);
     }
   }
 
-  private generateNormalizedRandomNumbers(m: number) {
+  private generateNormalizedRandomNumbers() {
     this.normalizedRandomNumbers = this.randomNumbers
-      .map((x) => x / m);
+      .map((x) => x / this.values.m);
   }
 
   private calculateExpectancy() {
@@ -164,12 +169,12 @@ export class GeneratorService {
     }
   }
 
-  private calculateCNumners(n: number) {
+  private calculateCNumners() {
     this.cNumbers = this.mNumbers
-      .map(x => x / n);
+      .map(x => x / this.values.n);
   }
 
-  private calculateYScaleMax(){
+  private calculateYScaleMax() {
     const max = this.cNumbers.reduce(function(a, b) {
       return Math.max(a, b);
     });
@@ -177,12 +182,29 @@ export class GeneratorService {
     this.yScaleMax = max;
   }
 
-  private calculateYScaleMin(){
+  private calculateYScaleMin() {
     const min = this.cNumbers.reduce(function(a, b) {
       return Math.min(a, b);
     });
 
     this.yScaleMin = min;
+  }
+
+  private calculateIndirectTest() {
+    let k = 0;
+    let length = this.normalizedRandomNumbers.length;
+
+    length = length % 2 == 0 ? length : length - 1;
+
+    for(let i = 0; i < length; i += 2) {
+      var numb = Math.pow(this.normalizedRandomNumbers[i], 2) + Math.pow(this.normalizedRandomNumbers[i + 1], 2);
+      
+      if(numb < 1) {
+        k++;
+      }      
+    }
+
+    this.indirectTest = 2 * k / this.values.n;
   }
 
 }

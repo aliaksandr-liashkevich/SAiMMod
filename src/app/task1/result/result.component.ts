@@ -9,7 +9,8 @@ import { Lemer, LemerResult } from '../shared/models';
   styleUrls: ['./result.component.scss']
 })
 export class ResultComponent implements OnInit {
-  public result = new LemerResult(null, null, 0, 0, 0, null, 0, 0);
+  public result = new LemerResult(null, null, 0, 0, 0, null, 0, 0, 0);
+  public inderectTestResult = Math.PI / 4;
   single: any[];
   view: any[] = [700, 400];
   showXAxis = true;

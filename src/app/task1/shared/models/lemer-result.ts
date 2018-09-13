@@ -7,6 +7,7 @@ export class LemerResult {
     public period: number,
     public cNumbers: number[],
     public yScaleMin: number,
-    public yScaleMax: number
+    public yScaleMax: number,
+    public indirectTest: number
   ) { }
 }
