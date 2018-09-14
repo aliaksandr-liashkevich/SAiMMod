@@ -26,23 +26,10 @@ export class GeneratorService {
 
   constructor() { }
 
-  public init(values: Lemer) {
+  public mainInit(values: Lemer) {
     this.values = values;
     this.generateRandomNumbers();
     this.generateNormalizedRandomNumbers();
-    this.calculateExpectancy();
-    this.calculateDispersion();
-    this.calculateSqrDivergence();
-    this.calculatePeriod();
-    this.calculateXMax();
-    this.calculateXMin();
-    this.calculateVariation();
-    this.calculateDelta();
-    this.calculateMNumbers();
-    this.calculateCNumners();
-    this.calculateYScaleMax();
-    this.calculateYScaleMin();
-    this.calculateIndirectTest();
   }
 
   public getResult(): LemerResult {
@@ -58,6 +45,30 @@ export class GeneratorService {
       this.indirectTest
     );
   }
+
+  public init() {
+    this.calculateExpectancy();
+    this.calculateDispersion();
+    this.calculateSqrDivergence();
+    this.calculatePeriod();
+    this.calculateXMax();
+    this.calculateXMin();
+    this.calculateVariation();
+    this.calculateDelta();
+    this.calculateMNumbers();
+    this.calculateCNumners();
+    this.calculateYScaleMax();
+    this.calculateYScaleMin();
+    this.calculateIndirectTest();
+  }
+
+public getNormalizedRandomNumbers(){
+  return this.normalizedRandomNumbers;
+}
+
+public getPeriod(){
+  return this.period;
+}
 
   private generateRandomNumbers() {
     this.randomNumbers = new Array<number>(this.values.n);
@@ -138,7 +149,7 @@ export class GeneratorService {
   }
 
   private calculateMNumbers() {
-    const sortNormalizedRandomNumbers = this.normalizedRandomNumbers.sort(function(a, b) {
+    const sortNormalizedRandomNumbers = this.normalizedRandomNumbers.slice().sort(function(a, b) {
       return a - b;
     });
 

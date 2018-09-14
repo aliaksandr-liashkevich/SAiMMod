@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { Task1RoutingModule } from './task1-routing.module';
 import { Task1Component } from './task1.component';
 import { GeneratorService } from './shared/services/generator.service';
+import { AperiodicityService } from './shared/services/aperiodicity.service';
 import { ResultComponent } from './result/result.component';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,7 +19,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     BrowserAnimationsModule
   ],
   providers: [
-    GeneratorService
+    GeneratorService,
+    AperiodicityService
   ],
   declarations: [Task1Component, ResultComponent]
 })
