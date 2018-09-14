@@ -50,7 +50,7 @@ export class ResultComponent implements OnInit {
           console.log(this.result);
 
           this.yScaleMax = this.result.yScaleMax;
-          this.yScaleMin = this.result.yScaleMin - 0.005;
+          this.yScaleMin = this.result.yScaleMin - 0.005; 
 
           let i = 0;
           Object.assign(this, { single: this.result.cNumbers.map(function(c){
