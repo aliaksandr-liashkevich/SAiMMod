@@ -10,7 +10,7 @@ import { Lemer } from './shared/models/lemer';
 })
 export class Task1Component implements OnInit {
   public form: FormGroup;
-  public lemer = new Lemer(100000, 32768, 1023, 3);
+  public lemer = new Lemer(1000000, 999983, 995117, 997573);
 
   public formErrors = {
     n: '',

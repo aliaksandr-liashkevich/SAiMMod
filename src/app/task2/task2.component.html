@@ -1,0 +1,121 @@
+<div class="Task2">
+  <h1 class="text-center">
+    Лабораторная работа 2. САиММоД
+  </h1>
+  <hr/>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmitEvenlyDistribution()">
+    <h3>Равномерное распределение</h3>
+    <div class="form-group">
+      <label for="evenlyA">a</label>
+      <input id="evenlyA" type="number" class="form-control" formControlName="evenlyA" required />
+      <div *ngIf="formErrors.evenlyA" class="alert alert-danger">
+        {{ formErrors.evenlyA }}
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="evenlyB">b</label>
+      <input id="evenlyB" type="number" class="form-control" formControlName="evenlyB" required />
+      <div *ngIf="formErrors.evenlyB" class="alert alert-danger">
+        {{ formErrors.evenlyB }}
+      </div>
+    </div>
+
+    <div class="row justify-content-center ">
+      <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+          Сгенерировать
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <hr/>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmitGaussianDistribution()">
+    <h3>Гаусовское распределение</h3>
+  </form>
+  
+  <hr/>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmitExponentialDistribution()">
+    <h3>Экспоненциальное распределение</h3>
+    <div class="form-group">
+      <label for="exponentialL">Лямбда (&#955;)</label>
+      <input id="exponentialL" type="number" class="form-control" formControlName="exponentialL" required />
+      <div *ngIf="formErrors.exponentialL" class="alert alert-danger">
+        {{ formErrors.exponentialL }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="exponentialXMin">x<sub>min</sub></label>
+      <input id="exponentialXMin" type="number" class="form-control" formControlName="exponentialXMin" required />
+      <div *ngIf="formErrors.exponentialXMin" class="alert alert-danger">
+        {{ formErrors.exponentialXMin }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="exponentialXMax">x<sub>max</sub></label>
+      <input id="exponentialXMax" type="number" class="form-control" formControlName="exponentialXMax" required />
+      <div *ngIf="formErrors.exponentialXMax" class="alert alert-danger">
+        {{ formErrors.exponentialXMax }}
+      </div>
+    </div>
+
+    <div class="row justify-content-center ">
+      <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+          Сгенерировать
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <hr/>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmitGammaDistribution()">
+    <h3>Гамма-распределение</h3>
+    <div class="form-group">
+      <label for="gammaN">n (n > 0)</label>
+      <input id="gammaN" type="number" class="form-control" formControlName="gammaN" required />
+      <div *ngIf="formErrors.gammaN" class="alert alert-danger">
+        {{ formErrors.gammaN }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gammaL">Лямбда (&#955;, &#955; > 0)</label>
+      <input id="gammaL" type="number" class="form-control" formControlName="gammaL" required />
+      <div *ngIf="formErrors.gammaL" class="alert alert-danger">
+        {{ formErrors.gammaL }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gammaXMin">x<sub>min</sub></label>
+      <input id="gammaXMin" type="number" class="form-control" formControlName="gammaXMin" required />
+      <div *ngIf="formErrors.gammaXMin" class="alert alert-danger">
+        {{ formErrors.gammaXMin }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gammaXMax">x<sub>max</sub></label>
+      <input id="gammaXMax" type="number" class="form-control" formControlName="gammaXMax" required />
+      <div *ngIf="formErrors.gammaXMax" class="alert alert-danger">
+        {{ formErrors.gammaXMax }}
+      </div>
+    </div>
+
+    <div class="row justify-content-center ">
+      <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+          Сгенерировать
+        </button>
+      </div>
+    </div>
+  </form>
+
+</div>

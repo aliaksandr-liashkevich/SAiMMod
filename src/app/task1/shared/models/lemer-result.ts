@@ -8,6 +8,7 @@ export class LemerResult {
     public cNumbers: number[],
     public yScaleMin: number,
     public yScaleMax: number,
-    public indirectTest: number
+    public indirectTest: number,
+    public aperiod: number
   ) { }
 }

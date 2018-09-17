@@ -42,7 +42,8 @@ export class GeneratorService {
       this.cNumbers,
       this.yScaleMin,
       this.yScaleMax,
-      this.indirectTest
+      this.indirectTest,
+      0
     );
   }
 

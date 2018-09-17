@@ -42,10 +42,7 @@ export class AperiodicityService {
     }
 
     this.l = i3 + this.period;
-    console.log("L -  " + this.l);
-    console.log(i3);
-
-    console.log(this.period);
     
+    return this.l;
   }
 }
