@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EvenlyDistributionService } from '../../shared/services/evenly-distribution.service';
-import { EvenlyDistributionResult, EvenlyDistribution } from '../../shared/models';
+import { DistributionResult, EvenlyDistribution } from '../../shared/models';
 
 @Component({
   selector: 'app-evenly-distribution',
@@ -9,7 +9,7 @@ import { EvenlyDistributionResult, EvenlyDistribution } from '../../shared/model
   styleUrls: ['./evenly-distribution.component.scss']
 })
 export class EvenlyDistributionComponent implements OnInit {
-  public result = new EvenlyDistributionResult(0, 0, 0);
+  public result = new DistributionResult(0, 0, 0, null);
 
   constructor(
     private route: ActivatedRoute,
@@ -23,6 +23,8 @@ export class EvenlyDistributionComponent implements OnInit {
 
         this.evenlyDistributionService.init(new EvenlyDistribution(+evenlyA, +evenlyB));
         this.result = this.evenlyDistributionService.getResult();
+        this.result.histogram.yScaleMax = 0.01;
+        this.result.histogram.yScaleMin = 0;
 
         console.log(this.result);
       }

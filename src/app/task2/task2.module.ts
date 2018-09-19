@@ -9,6 +9,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EvenlyDistributionComponent } from './result/evenly-distribution/evenly-distribution.component';
 import { ExponentialDistributionComponent } from './result/exponential-distribution/exponential-distribution.component';
 import { GammaDistributionComponent } from './result/gamma-distribution/gamma-distribution.component';
+import { HistogramGeneratorService } from './shared/services/histogram-generator.service';
+import { HistogramTableComponent } from './result/histogram-table/histogram-table.component';
+import { GeneratorService } from '../task1/shared/services';
 
 @NgModule({
   imports: [
@@ -18,9 +21,13 @@ import { GammaDistributionComponent } from './result/gamma-distribution/gamma-di
     BrowserAnimationsModule,
     ReactiveFormsModule
   ],
+  providers: [
+    HistogramGeneratorService,
+    GeneratorService
+  ],
   declarations: [
     Task2Component, 
-    EvenlyDistributionComponent, ExponentialDistributionComponent, GammaDistributionComponent
+    EvenlyDistributionComponent, ExponentialDistributionComponent, GammaDistributionComponent, HistogramTableComponent
   ]
 })
 export class Task2Module { }

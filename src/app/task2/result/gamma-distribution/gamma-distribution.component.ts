@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { GammaDistributionResult, GammaDistribution } from '../../shared/models';
+import { DistributionResult, GammaDistribution } from '../../shared/models';
 import { GammaDistributionService } from '../../shared/services';
 
 @Component({
@@ -9,7 +9,7 @@ import { GammaDistributionService } from '../../shared/services';
   styleUrls: ['./gamma-distribution.component.scss']
 })
 export class GammaDistributionComponent implements OnInit {
-  public result = new GammaDistributionResult(0, 0, 0);
+  public result = new DistributionResult(0, 0, 0, null);
 
   constructor(
     private route: ActivatedRoute,

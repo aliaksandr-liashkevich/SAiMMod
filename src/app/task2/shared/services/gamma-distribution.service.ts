@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { GammaDistribution, GammaDistributionResult } from '../models';
+import { GammaDistribution, DistributionResult } from '../models';
+import { HistogramGeneratorService } from './histogram-generator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,9 @@ export class GammaDistributionService {
   private dispersion: number;
   private sqrDivergence: number;
 
-  constructor() { }
+  constructor(
+    private histogramService: HistogramGeneratorService
+  ) { }
 
   public init(values: GammaDistribution) {
     this.values = values;
@@ -23,10 +26,13 @@ export class GammaDistributionService {
   }
 
   public getResult() {
-    return new GammaDistributionResult(
+    const hystogram = this.histogramService.generate(this.generatedSequence, 5);
+    
+    return new DistributionResult(
       this.dispersion,
       this.sqrDivergence,
-      this.expectancy
+      this.expectancy,
+      hystogram
     );
   }
 

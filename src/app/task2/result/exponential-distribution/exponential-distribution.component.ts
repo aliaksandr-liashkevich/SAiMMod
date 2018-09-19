@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ExponentialDistributionService } from '../../shared/services/exponential-distribution.service';
-import { ExponentialDistributionResult } from '../../shared/models/exponensial-distribution-result';
+import { DistributionResult } from '../../shared/models';
 import { ExponentialDistribution } from '../../shared/models';
 
 @Component({
@@ -10,7 +10,7 @@ import { ExponentialDistribution } from '../../shared/models';
   styleUrls: ['./exponential-distribution.component.scss']
 })
 export class ExponentialDistributionComponent implements OnInit {
-  public result = new ExponentialDistributionResult(0, 0, 0);
+  public result = new DistributionResult(0, 0, 0, null);
 
 
   constructor(

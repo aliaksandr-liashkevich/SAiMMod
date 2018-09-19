@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ExponentialDistribution } from '../models';
-import { ExponentialDistributionResult } from '../models/exponensial-distribution-result';
+import { DistributionResult } from '../models/distribution-result';
+import { HistogramGeneratorService } from './histogram-generator.service';
+import { GeneratorService } from './generator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +15,14 @@ export class ExponentialDistributionService {
   private dispersion: number;
   private sqrDivergence: number;
 
-  constructor() { }
+  constructor(
+    private histogramService: HistogramGeneratorService,
+    private generator: GeneratorService
+  ) { }
 
   public init(values: ExponentialDistribution) {
     this.values = values;
+    this.generator.init(10000);
     this.generate();
     this.calculateExpectancy();
     this.calculateDispersion();
@@ -24,27 +30,24 @@ export class ExponentialDistributionService {
   }
 
   public getResult() {
-    return new ExponentialDistributionResult(
+    const hystogram = this.histogramService.generate(this.generatedSequence, 20);
+
+    return new DistributionResult(
       this.dispersion,
       this.sqrDivergence,
-      this.expectancy
+      this.expectancy,
+      hystogram
     );
   }
 
   private generate() {
-    let length = this.values.xMax - this.values.xMin + 1;
-    let currentX = this.values.xMin;
+    const normalized = this.generator.getNormalizedRandomNumbers();
+    const length = normalized.length;
 
     this.generatedSequence = new Array<number>(length);
 
     for(let i = 0; i < length; i++) {
-      if (currentX <= 0) {
-        this.generatedSequence[i] = 0;
-      } else {
-        this.generatedSequence[i] = this.values.l * Math.exp(-1 * this.values.l * currentX);        
-      }
-      
-      currentX++;
+      this.generatedSequence[i] = -1/this.values.l * Math.log10(normalized[i]);
     }
   }
 

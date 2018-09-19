@@ -1,0 +1,17 @@
+<div class="container p-3">
+  <div class="card">
+    <div class="card-header">Результаты</div>
+    <ul *ngIf="result" class="list-group list-group-flush">
+      <li class="list-group-item">Математическое ожидание: {{result.expectancy}}</li>
+      <li class="list-group-item">Среднеквадратическое отклонение: {{result.sqrDivergence}}</li>
+      <li class="list-group-item">Дисперсия: {{result.dispersion}}</li>
+    </ul>
+  </div>
+  <div *ngIf="result && result.histogram" class="d-flex justify-content-center pt-3">
+    <ngx-charts-bar-vertical [view]="view" [scheme]="colorScheme" [results]="result.histogram.histogram" [gradient]="gradient" [xAxis]="showXAxis"
+      [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel" [yScaleMin]="result.histogram.yScaleMin" [yScaleMax]="result.histogram.yScaleMax" (select)="onSelect($event)">
+    </ngx-charts-bar-vertical>
+
+  </div>
+</div>

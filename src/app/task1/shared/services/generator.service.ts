@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Lemer, LemerResult } from '../models';
 import { Constants } from './constants';
+import { Interval } from '../../../task2/shared/models';
 
 @Injectable({
   providedIn: 'root'
@@ -150,34 +151,45 @@ public getPeriod(){
   }
 
   private calculateMNumbers() {
-    const sortNormalizedRandomNumbers = this.normalizedRandomNumbers.slice().sort(function(a, b) {
-      return a - b;
-    });
+    console.log(`Max ${this.xMax}; Min ${this.xMin}`);
+    console.log(this.normalizedRandomNumbers);
+    const length = this.normalizedRandomNumbers.length;
 
     this.mNumbers = new Array<number>(Constants.K);
-
-    let j = 0;
-    let count = 1;
-    let xMaxDelta = sortNormalizedRandomNumbers[0] + this.delta;
-    const length = sortNormalizedRandomNumbers.length;
-
-    for(let i = 1; i < length; i++) {
-      if(sortNormalizedRandomNumbers[i] > xMaxDelta) {
-        this.mNumbers[j] = count;
-        j++;
-        count = 0;
-        xMaxDelta += this.delta;
-      }
-
-      count++;
+    for (let i = 0; i < Constants.K; i++) {
+      this.mNumbers[i] = 0;
     }
 
-    if(count > 0) {
-      if(!this.mNumbers[Constants.K - 1]){
-        this.mNumbers[Constants.K - 1] = 0; 
-      }      
+    if (this.xMax === this.xMin) {
+      for (let i = 0; i < Constants.K; i++) {
+        this.mNumbers[i] = Math.floor(length / Constants.K);
+      }
 
-      this.mNumbers[Constants.K - 1] += count; 
+      console.log(this.mNumbers);
+
+      return;
+    }
+
+    const intervals = new Array<Interval>(Constants.K);
+    intervals[0] = new Interval(
+      this.xMin,
+      this.xMin + this.delta
+    );
+    for (let i = 1; i < Constants.K; i++) {
+      intervals[i] = new Interval(
+        intervals[i - 1].max,
+        intervals[i - 1].max + this.delta
+      );
+    }
+
+    let element: number;
+    for (let j = 0; j < length; j++) {
+      element = this.normalizedRandomNumbers[j];
+      for (let i = 0; i < Constants.K; i++) {
+        if (intervals[i].min <= element && intervals[i].max > element) {
+          this.mNumbers[i]++;
+        }
+      }
     }
   }
 
