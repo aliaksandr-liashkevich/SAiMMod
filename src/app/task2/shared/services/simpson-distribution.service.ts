@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { EvenlyDistribution, DistributionResult } from '../models';
+import { SimpsonDistribution } from '../models/simpson-distribution';
 import { HistogramGeneratorService } from './histogram-generator.service';
 import { GeneratorService } from './generator.service';
+import { DistributionResult } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EvenlyDistributionService {
-  private values: EvenlyDistribution;
+export class SimpsonDistributionService {
+  private values: SimpsonDistribution;
   private generatedSequence: Array<number>;
   private expectancy: number;
   private dispersion: number;
@@ -18,9 +19,8 @@ export class EvenlyDistributionService {
     private generator: GeneratorService
   ) { }
 
-  public init(values: EvenlyDistribution) {
+  public init(values: SimpsonDistribution) {
     this.values = values;
-    this.generator.init(values.n);
     this.generate();
     this.calculateExpectancy();
     this.calculateDispersion();
@@ -29,7 +29,7 @@ export class EvenlyDistributionService {
 
   public getResult() {
     const hystogram = this.histogramService.generate(this.generatedSequence, 20);
-
+    
     return new DistributionResult(
       this.dispersion,
       this.sqrDivergence,
@@ -38,13 +38,21 @@ export class EvenlyDistributionService {
     );
   }
 
-  private generate() {    
+  private evenly(a: number, b: number, r: number): number {
+    return a + (b - a) * r;
+  }
+
+  private generate() {
+    const n: number = 1000;
+    this.generator.init(n * 2);
     const normalized = this.generator.getNormalizedRandomNumbers();
-    const length = normalized.length;
-    this.generatedSequence = new Array<number>(length);
-    for(let i = 0; i < length; i++) {
-      this.generatedSequence[i] = this.values.a + (this.values.b - this.values.a) * normalized[i];
-    }    
+    this.generatedSequence = new Array<number>(n);
+
+    let j = 0;
+    for (let i = 0; i < n; i++) {
+      this.generatedSequence[i] = this.evenly(this.values.a / 2, this.values.b / 2, normalized[j]) + this.evenly(this.values.a / 2, this.values.b / 2, normalized[j + 1]);
+      j += 2;
+    }
   }
 
   private calculateExpectancy() {
@@ -70,4 +78,5 @@ export class EvenlyDistributionService {
   private calculateSqrDivergence() {
     this.sqrDivergence = Math.sqrt(this.dispersion);
   }
+
 }

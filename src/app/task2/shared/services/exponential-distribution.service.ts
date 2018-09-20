@@ -10,7 +10,6 @@ import { GeneratorService } from './generator.service';
 export class ExponentialDistributionService {
   private values: ExponentialDistribution;
   private generatedSequence: Array<number>;
-  private normalizedSequence: Array<number>;
   private expectancy: number;
   private dispersion: number;
   private sqrDivergence: number;
@@ -47,16 +46,28 @@ export class ExponentialDistributionService {
     this.generatedSequence = new Array<number>(length);
 
     for(let i = 0; i < length; i++) {
-      this.generatedSequence[i] = -1/this.values.l * Math.log10(normalized[i]);
+      this.generatedSequence[i] = (-1/this.values.l) * Math.log10(normalized[i]);
     }
   }
 
   private calculateExpectancy() {
-    this.expectancy = 1 / this.values.l;
+    const length = this.generatedSequence.length;
+    let sum = 0;
+    this.generatedSequence.forEach((x) => {
+      sum += x;
+    });
+
+    this.expectancy = (sum / length);
   }
 
   private calculateDispersion() {
-    this.dispersion = 1 / Math.pow(this.values.l, 2);
+    const length = this.generatedSequence.length;
+    let sum = 0;
+    this.generatedSequence.forEach((x) => {
+      sum += Math.pow(x - this.expectancy, 2);
+    });
+
+    this.dispersion = (sum / length);
   }
 
   private calculateSqrDivergence() {

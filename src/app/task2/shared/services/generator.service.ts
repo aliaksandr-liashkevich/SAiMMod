@@ -18,8 +18,11 @@ export class GeneratorService {
     )
   }
 
-  public init(n: number) {
+  public init(n: number, x0: number | null = null) {
     this.values.n = n;
+    if (x0) {
+      this.values.x0 = x0;
+    }
     this.generateRandomNumbers();
     this.generateNormalizedRandomNumbers();
   }

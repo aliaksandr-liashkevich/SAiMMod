@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import { EvenlyDistribution, DistributionResult } from '../models';
 import { HistogramGeneratorService } from './histogram-generator.service';
-import { GeneratorService } from './generator.service';
+import { GaysDistribution, DistributionResult } from '../models';
+import { GeneratorService } from 'src/app/task2/shared/services';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EvenlyDistributionService {
-  private values: EvenlyDistribution;
+export class GaysDistributionService {
+  private values: GaysDistribution;
   private generatedSequence: Array<number>;
   private expectancy: number;
   private dispersion: number;
@@ -18,9 +18,8 @@ export class EvenlyDistributionService {
     private generator: GeneratorService
   ) { }
 
-  public init(values: EvenlyDistribution) {
+  public init(values: GaysDistribution) {
     this.values = values;
-    this.generator.init(values.n);
     this.generate();
     this.calculateExpectancy();
     this.calculateDispersion();
@@ -29,7 +28,7 @@ export class EvenlyDistributionService {
 
   public getResult() {
     const hystogram = this.histogramService.generate(this.generatedSequence, 20);
-
+    
     return new DistributionResult(
       this.dispersion,
       this.sqrDivergence,
@@ -38,13 +37,26 @@ export class EvenlyDistributionService {
     );
   }
 
-  private generate() {    
-    const normalized = this.generator.getNormalizedRandomNumbers();
-    const length = normalized.length;
+  private generate() {
+    const n: number = 6;
+    this.generator.init(n * this.values.n);
+    let normalized = this.generator.getNormalizedRandomNumbers();
+    const length = this.values.n;
+
     this.generatedSequence = new Array<number>(length);
+    let sum = 0;
+    let j = 0;
+    let shift = 0;
     for(let i = 0; i < length; i++) {
-      this.generatedSequence[i] = this.values.a + (this.values.b - this.values.a) * normalized[i];
-    }    
+      shift += n;
+      sum = 0;
+      for(; j < shift; j++) {
+        sum += normalized[j];
+      }
+
+      this.generatedSequence[i] = this.values.m + this.values.q * Math.sqrt(12 / n) * (sum - n / 2);
+    }
+
   }
 
   private calculateExpectancy() {

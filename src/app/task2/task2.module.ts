@@ -12,6 +12,10 @@ import { GammaDistributionComponent } from './result/gamma-distribution/gamma-di
 import { HistogramGeneratorService } from './shared/services/histogram-generator.service';
 import { HistogramTableComponent } from './result/histogram-table/histogram-table.component';
 import { GeneratorService } from '../task1/shared/services';
+import { GaysDistributionComponent } from './result/gays-distribution/gays-distribution.component';
+import { TriangleDistributionComponent } from './result/triangle-distribution/triangle-distribution.component';
+import { SimpsonDistributionComponent } from './result/simpson-distribution/simpson-distribution.component';
+import { SimpsonDistributionService } from './shared/services/simpson-distribution.service';
 
 @NgModule({
   imports: [
@@ -23,11 +27,12 @@ import { GeneratorService } from '../task1/shared/services';
   ],
   providers: [
     HistogramGeneratorService,
-    GeneratorService
+    GeneratorService,
+    SimpsonDistributionService
   ],
   declarations: [
     Task2Component, 
-    EvenlyDistributionComponent, ExponentialDistributionComponent, GammaDistributionComponent, HistogramTableComponent
+    EvenlyDistributionComponent, ExponentialDistributionComponent, GammaDistributionComponent, HistogramTableComponent, GaysDistributionComponent, TriangleDistributionComponent, SimpsonDistributionComponent
   ]
 })
 export class Task2Module { }

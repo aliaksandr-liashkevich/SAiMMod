@@ -21,10 +21,10 @@ export class ExponentialDistributionComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params) {
-        const { exponentialL, exponentialXMin, exponentialXMax } = params;
+        const { exponentialL } = params;
 
         this.exponentialDistributionService.init(
-          new ExponentialDistribution(+exponentialL, +exponentialXMin, +exponentialXMax)
+          new ExponentialDistribution(+exponentialL, 0, 0)
         );
 
         this.result = this.exponentialDistributionService.getResult();

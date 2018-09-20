@@ -19,9 +19,9 @@ export class EvenlyDistributionComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params) {
-        const { evenlyA, evenlyB } = params;
+        const { evenlyA, evenlyB, evenlyN } = params;
 
-        this.evenlyDistributionService.init(new EvenlyDistribution(+evenlyA, +evenlyB));
+        this.evenlyDistributionService.init(new EvenlyDistribution(+evenlyA, +evenlyB, +evenlyN));
         this.result = this.evenlyDistributionService.getResult();
         this.result.histogram.yScaleMax = 0.01;
         this.result.histogram.yScaleMin = 0;

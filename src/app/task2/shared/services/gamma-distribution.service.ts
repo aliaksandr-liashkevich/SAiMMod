@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GammaDistribution, DistributionResult } from '../models';
 import { HistogramGeneratorService } from './histogram-generator.service';
+import { GeneratorService } from './generator.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class GammaDistributionService {
   private sqrDivergence: number;
 
   constructor(
-    private histogramService: HistogramGeneratorService
+    private histogramService: HistogramGeneratorService,
+    private generator: GeneratorService
   ) { }
 
   public init(values: GammaDistribution) {
@@ -26,7 +28,7 @@ export class GammaDistributionService {
   }
 
   public getResult() {
-    const hystogram = this.histogramService.generate(this.generatedSequence, 5);
+    const hystogram = this.histogramService.generate(this.generatedSequence, 20);
     
     return new DistributionResult(
       this.dispersion,
@@ -37,29 +39,43 @@ export class GammaDistributionService {
   }
 
   private generate() {
-    let length = this.values.xMax - this.values.xMin + 1;
-    let currentX = this.values.xMin;
+    const n = 10000;
+    this.generator.init(n * this.values.n)
+    const normalized = this.generator.getNormalizedRandomNumbers();
+    this.generatedSequence = new Array<number>(n);
 
-    this.generatedSequence = new Array<number>(length);
-
-    for(let i = 0; i < length; i++) {
-      if(currentX <= 0){
-        this.generatedSequence[i] = 0;
-      } else{
-        this.generatedSequence[i] = Math.exp(-1 * this.values.l * currentX) * Math.pow(currentX, this.values.n - 1) 
-          * Math.pow(this.values.l, this.values.n) / this.calculateFactorial(this.values.n - 1);
+    let p = 1;
+    let j = 0;
+    let shift = 0;
+    for(let i = 0; i < n; i++) {
+      shift += this.values.n;
+      p = 1;
+      for(; j < shift; j++) {
+        p *= normalized[j];
       }
 
-      currentX++;
+      this.generatedSequence[i] = - 1 / this.values.l * Math.log(p);
     }
   }
 
   private calculateExpectancy() {
-    this.expectancy = this.values.n / this.values.l;
+    const length = this.generatedSequence.length;
+    let sum = 0;
+    this.generatedSequence.forEach((x) => {
+      sum += x;
+    });
+
+    this.expectancy = (sum / length);
   }
 
   private calculateDispersion() {
-    this.dispersion = this.values.n / Math.pow(this.values.l, 2);
+    const length = this.generatedSequence.length;
+    let sum = 0;
+    this.generatedSequence.forEach((x) => {
+      sum += Math.pow(x - this.expectancy, 2);
+    });
+
+    this.dispersion = (sum / length);
   }
 
   private calculateSqrDivergence() {

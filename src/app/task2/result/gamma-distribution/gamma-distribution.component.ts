@@ -19,10 +19,10 @@ export class GammaDistributionComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(params => {
       if (params) {
-        const { gammaL, gammaN, gammaXMin, gammaXMax } = params;
+        const { gammaL, gammaN } = params;
 
         this.gammaDistributionService.init(
-          new GammaDistribution(+gammaL, +gammaN, +gammaXMin, +gammaXMax)
+          new GammaDistribution(+gammaL, +gammaN, +0, +0)
         );
 
         this.result = this.gammaDistributionService.getResult();

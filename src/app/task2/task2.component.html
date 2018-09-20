@@ -4,6 +4,31 @@
   </h1>
   <hr/>
 
+  <div class="card">
+    <div class="card-header">Ссылки</div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <a href="http://localhost:4200/task2/result/evenly-distribution?evenlyA=1&evenlyB=100&evenlyN=10000">Равномерное</a>
+      </li>
+      <li class="list-group-item">
+        <a href="http://localhost:4200/task2/result/gays-distribution?gaysM=27&gaysQ=15&gaysN=10000">Гаусовское</a>
+      </li>
+      <li class="list-group-item">
+        <a href="http://localhost:4200/task2/result/exponential-distribution?exponentialL=12">Экспоненциальное</a>
+      </li>
+      <li class="list-group-item">
+        <a href="http://localhost:4200/task2/result/gamma-distribution?gammaL=1&gammaN=5">Гамма-распределение</a>
+      </li>
+      <li class="list-group-item">
+        <a href="http://localhost:4200/task2/result/triangle-distribution?a=1&b=2">Треугольное</a>
+      </li>
+      <li class="list-group-item">
+        <a href="http://localhost:4200/task2/result/simpson-distribution?a=1&b=2">Симпсона</a>
+      </li>
+    </ul>
+  </div>
+  <br />
+
   <form [formGroup]="form" (ngSubmit)="onSubmitEvenlyDistribution()">
     <h3>Равномерное распределение</h3>
     <div class="form-group">
@@ -21,6 +46,14 @@
       </div>
     </div>
 
+    <div class="form-group">
+      <label for="evenlyN">n</label>
+      <input id="evenlyN" type="number" class="form-control" formControlName="evenlyN" required />
+      <div *ngIf="formErrors.evenlyN" class="alert alert-danger">
+        {{ formErrors.evenlyN }}
+      </div>
+    </div>
+
     <div class="row justify-content-center ">
       <div class="btn-group" role="group">
         <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
@@ -34,6 +67,37 @@
 
   <form [formGroup]="form" (ngSubmit)="onSubmitGaussianDistribution()">
     <h3>Гаусовское распределение</h3>
+    <div class="form-group">
+      <label for="gaysM">m<sub>x</sub></label>
+      <input id="exponegaysMntialL" type="number" class="form-control" formControlName="gaysM" required />
+      <div *ngIf="formErrors.gaysM" class="alert alert-danger">
+        {{ formErrors.gaysM }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gaysQ">Q<sub>x</sub></label>
+      <input id="gaysQ" type="number" class="form-control" formControlName="gaysQ" required />
+      <div *ngIf="formErrors.gaysQ" class="alert alert-danger">
+        {{ formErrors.gaysQ }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="gaysN">n</label>
+      <input id="gaysN" type="number" class="form-control" formControlName="gaysN" required />
+      <div *ngIf="formErrors.gaysN" class="alert alert-danger">
+        {{ formErrors.gaysN }}
+      </div>
+    </div>
+
+    <div class="row justify-content-center ">
+      <div class="btn-group" role="group">
+        <button type="submit" class="btn btn-primary" [disabled]="!form.valid">
+          Сгенерировать
+        </button>
+      </div>
+    </div>
   </form>
   
   <hr/>
@@ -45,22 +109,6 @@
       <input id="exponentialL" type="number" class="form-control" formControlName="exponentialL" required />
       <div *ngIf="formErrors.exponentialL" class="alert alert-danger">
         {{ formErrors.exponentialL }}
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="exponentialXMin">x<sub>min</sub></label>
-      <input id="exponentialXMin" type="number" class="form-control" formControlName="exponentialXMin" required />
-      <div *ngIf="formErrors.exponentialXMin" class="alert alert-danger">
-        {{ formErrors.exponentialXMin }}
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="exponentialXMax">x<sub>max</sub></label>
-      <input id="exponentialXMax" type="number" class="form-control" formControlName="exponentialXMax" required />
-      <div *ngIf="formErrors.exponentialXMax" class="alert alert-danger">
-        {{ formErrors.exponentialXMax }}
       </div>
     </div>
 

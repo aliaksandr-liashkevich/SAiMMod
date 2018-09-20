@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { EvenlyDistribution, DistributionResult } from '../models';
-import { HistogramGeneratorService } from './histogram-generator.service';
 import { GeneratorService } from './generator.service';
+import { HistogramGeneratorService } from './histogram-generator.service';
+import { TriangleDistribution } from '../models/triangle-distribution';
+import { DistributionResult } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EvenlyDistributionService {
-  private values: EvenlyDistribution;
+export class TriangleDistributionService {
+  private values: TriangleDistribution;
   private generatedSequence: Array<number>;
   private expectancy: number;
   private dispersion: number;
@@ -18,9 +19,8 @@ export class EvenlyDistributionService {
     private generator: GeneratorService
   ) { }
 
-  public init(values: EvenlyDistribution) {
+  public init(values: TriangleDistribution) {
     this.values = values;
-    this.generator.init(values.n);
     this.generate();
     this.calculateExpectancy();
     this.calculateDispersion();
@@ -29,7 +29,7 @@ export class EvenlyDistributionService {
 
   public getResult() {
     const hystogram = this.histogramService.generate(this.generatedSequence, 20);
-
+    
     return new DistributionResult(
       this.dispersion,
       this.sqrDivergence,
@@ -38,13 +38,17 @@ export class EvenlyDistributionService {
     );
   }
 
-  private generate() {    
+  private generate() {
+    const n: number = 10000;
+    this.generator.init(n * 2);
     const normalized = this.generator.getNormalizedRandomNumbers();
-    const length = normalized.length;
-    this.generatedSequence = new Array<number>(length);
-    for(let i = 0; i < length; i++) {
-      this.generatedSequence[i] = this.values.a + (this.values.b - this.values.a) * normalized[i];
-    }    
+    this.generatedSequence = new Array<number>(n);
+
+    let j = 0;
+    for (let i = 0; i < n; i++) {
+      this.generatedSequence[i] = this.values.a + (this.values.b  - this.values.a) * Math.max(normalized[j], normalized[j + 1])
+      j += 2;
+    }
   }
 
   private calculateExpectancy() {

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { EvenlyDistribution } from './shared/models/evenly-distribution';
-import { ExponentialDistribution } from './shared/models';
+import { ExponentialDistribution, GaysDistribution } from './shared/models';
 import { GammaDistribution } from './shared/models/gamma-distribution';
 
 @Component({
@@ -12,18 +12,23 @@ import { GammaDistribution } from './shared/models/gamma-distribution';
 })
 export class Task2Component implements OnInit {
   public form: FormGroup;
-  public evenlyDistribution = new EvenlyDistribution(1, 100);
+  public evenlyDistribution = new EvenlyDistribution(1, 100, 10000);
   public exponentialDistribution = new ExponentialDistribution(12, 1, 20);
   public gammaDistribution = new GammaDistribution(1, 5, 6, 50);
+  public gaysDistribution = new GaysDistribution(15, 27, 10000);
 
   public formErrors = {
     evenlyA: '',
     evenlyB: '',
+    evenlyN: '',
     exponentialL: '',
     gammaL: '',
     gammaN: '',
     gammaXMin: '',
-    gammaXMax: '',
+    gammaXMax: '',  
+    gaysM: '',
+    gaysQ: '',
+    gaysN: '',  
   };
 
   validationMessages = {
@@ -32,6 +37,18 @@ export class Task2Component implements OnInit {
     },
     evenlyB: {
       required: 'Required field.',
+    },
+    evenlyN:{
+      required: 'Required field',
+    },
+    gaysQ:{
+      required: 'Required field',
+    },
+    gaysM:{
+      required: 'Required field',
+    },
+    gaysN:{
+      required: 'Required field',
     },
     exponentialL: {
       required: 'Required field',
@@ -53,7 +70,7 @@ export class Task2Component implements OnInit {
     },
     gammaXMax:{
       required: 'Required field',
-    }
+    },    
   };
 
   constructor(
@@ -66,16 +83,16 @@ export class Task2Component implements OnInit {
   }
 
   public onSubmitEvenlyDistribution() {
-    const { evenlyA, evenlyB } = this.form.value;
+    const { evenlyA, evenlyB, evenlyN } = this.form.value;
     this.router.navigate(['task2/result/evenly-distribution'], { queryParams: {
-      evenlyA, evenlyB
+      evenlyA, evenlyB, evenlyN
     }});
   }
 
   public onSubmitGaussianDistribution() {
-    const { evenlyA, evenlyB } = this.form.value;
-    this.router.navigate(['task2/result/evenly-distribution'], { queryParams: {
-      evenlyA, evenlyB
+    const { gaysM, gaysQ, gaysN  } = this.form.value;
+    this.router.navigate(['task2/result/gays-distribution'], { queryParams: {
+      gaysM, gaysQ, gaysN 
     }});
   }
 
@@ -101,6 +118,9 @@ export class Task2Component implements OnInit {
       evenlyB: [this.evenlyDistribution.b, [
         Validators.required
       ]],
+      evenlyN: [this.evenlyDistribution.n, [
+        Validators.required
+      ]],
       exponentialL: [this.exponentialDistribution.l, [
         Validators.required
       ]],
@@ -120,6 +140,15 @@ export class Task2Component implements OnInit {
         Validators.required
       ]],
       gammaXMin: [this.gammaDistribution.xMin, [
+        Validators.required
+      ]],
+      gaysM: [this.gaysDistribution.m, [
+        Validators.required
+      ]],
+      gaysN: [this.gaysDistribution.n, [
+        Validators.required
+      ]],
+      gaysQ: [this.gaysDistribution.q, [
         Validators.required
       ]],
     });
