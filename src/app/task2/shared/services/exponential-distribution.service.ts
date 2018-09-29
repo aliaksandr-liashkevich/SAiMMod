@@ -13,7 +13,7 @@ export class ExponentialDistributionService {
   private expectancy: number;
   private dispersion: number;
   private sqrDivergence: number;
-
+  private ln = require( 'math-ln' );
   constructor(
     private histogramService: HistogramGeneratorService,
     private generator: GeneratorService
@@ -41,7 +41,7 @@ export class ExponentialDistributionService {
 
   private generate() {
     
-    var ln = require( 'math-ln' );
+    
 
     const normalized = this.generator.getNormalizedRandomNumbers();
     const length = normalized.length;
@@ -49,7 +49,7 @@ export class ExponentialDistributionService {
     this.generatedSequence = new Array<number>(length);
 
     for(let i = 0; i < length; i++) {
-      this.generatedSequence[i] = (-1/this.values.l) * ln(normalized[i]);
+      this.generatedSequence[i] = (-1/this.values.l) * this.ln(normalized[i]);
     }
   }
 
